@@ -4,6 +4,8 @@ import { BaseQuery, SearchRequestQuery, newProductRequesstBody } from '../types/
 import { Product } from '../models/Product.js';
 import { ErrorHandler } from '../utils/utility-class.js';
 import { rm } from 'fs';
+import { nodeCache } from '../app.js';
+import { inValidateCache } from '../utils/features.js';
 
 export const newProduct = TryCatch(
   async (req: Request<{}, {}, newProductRequesstBody>, res, next) => {
@@ -27,6 +29,8 @@ export const newProduct = TryCatch(
       category: category.toLowerCase(),
       photo: photo?.path,
     });
+
+    await inValidateCache({product: true});
 
     return res.status(201).json({
       success: true,
@@ -67,6 +71,8 @@ export const updateProduct = TryCatch(async (req, res, next) => {
 
   await product.save();
 
+  await inValidateCache({product: true});
+
   return res.status(201).json({
     success: true,
     message: 'Product Updated Successfully.',
@@ -74,7 +80,15 @@ export const updateProduct = TryCatch(async (req, res, next) => {
 });
 
 export const getLatestProduct = TryCatch(async (req, res, next) => {
-  const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+  let products = [];
+
+  if (nodeCache.has('latest-products')) {
+    products = JSON.parse(nodeCache.get('latest-products') as string);
+  } else {
+    products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+    // revalidate on New, update, Delete Product and on New Order(stock)
+    nodeCache.set('latest-products', JSON.stringify(products));
+  }
 
   return res.status(201).json({
     success: true,
@@ -82,8 +96,17 @@ export const getLatestProduct = TryCatch(async (req, res, next) => {
   });
 });
 
+// revalidate  cache on New, update, Delete Product and on New Order(stock)
 export const getCategories = TryCatch(async (req, res, next) => {
-  const categories = await Product.distinct('category');
+  let categories;
+
+  if (nodeCache.has('categories')) {
+    categories = JSON.parse(nodeCache.get('categories') as string);
+  } else {
+    categories = await Product.distinct('category');
+    // revalidate on New, update, Delete Product and on New Order(stock)
+    nodeCache.set('categories', JSON.stringify(categories));
+  }
 
   return res.status(201).json({
     success: true,
@@ -91,19 +114,35 @@ export const getCategories = TryCatch(async (req, res, next) => {
   });
 });
 
+// revalidate  cache on New, update, Delete Product and on New Order(stock)
 export const getAllProducts = TryCatch(async (req, res, next) => {
-  const products = await Product.find({});
+  let products;
 
+  if (nodeCache.has('all-products')) {
+    products = JSON.parse(nodeCache.get('all-products') as string);
+  } else {
+    products = await Product.find({});
+    nodeCache.set('all-products', JSON.stringify(products));
+  }
   return res.status(201).json({
     success: true,
     products,
   });
 });
 
-export const getProductDetails = TryCatch(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+export const getProductDetail = TryCatch(async (req, res, next) => {
+  let product;
+  const id = req.params.id;
 
-  if (!product) return next(new ErrorHandler('Invalid Product Id.', 404));
+  if (nodeCache.has(`product-detail-${id}`)) {
+    product = JSON.parse(nodeCache.get(`product-detail-${id}`) as string);
+  } else {
+    product = await Product.findById(req.params.id);
+
+    if (!product) return next(new ErrorHandler('Invalid Product Id.', 404));
+
+    nodeCache.set(`product-detail-${id}`, JSON.stringify(product));
+  }
 
   return res.status(201).json({
     success: true,
@@ -122,12 +161,13 @@ export const deleteProduct = TryCatch(async (req, res, next) => {
 
   await product.deleteOne();
 
+  await inValidateCache({product: true});
+
   return res.status(201).json({
     success: true,
     message: 'Product Deleted Successfully.',
   });
 });
-
 
 export const getAllProductsWithFilter = TryCatch(
   async (req: Request<{}, {}, {}, SearchRequestQuery>, res, next) => {
@@ -158,7 +198,7 @@ export const getAllProductsWithFilter = TryCatch(
         .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : undefined)
         .limit(limit)
         .skip(skip),
-        
+
       Product.find(baseQuery),
     ]);
 

@@ -16,3 +16,11 @@ tsconfig.json
 -------------------Package.json
   "type": "module",
 
+
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+  BACKEND -
+  tryCatch middleware
+  error middleware
+  node-cache
