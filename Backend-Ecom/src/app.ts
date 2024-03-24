@@ -6,6 +6,7 @@ import { connectDB } from "./utils/features.js";
 
 const PORT = 4000;
 const app = express();
+
 connectDB();
 // middleware - to access data
 app.use(express.json());
