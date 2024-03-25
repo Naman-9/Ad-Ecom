@@ -22,7 +22,7 @@ app.get("/admin-products", getAllProducts);
 
 app.route("/:id")
     .get(getProductDetail)
-    .put(updateProduct)
+    .put(singleUpload, updateProduct)
     .delete(deleteProduct);
 
 
