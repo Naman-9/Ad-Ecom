@@ -48,15 +48,15 @@ export const myOrders = TryCatch(async (req, res, next) => {
   const { id } = req.query;
   const key = `my-orders-${id}`;
 
-  let orders = [];
+  let orders;
 
-  if (nodeCache.has(key)) orders = JSON.parse(nodeCache.get(key) as string);
+  if (nodeCache.has(key)) {orders = JSON.parse(nodeCache.get(key) as string)}
   else {
     orders = await Order.find({id});
     nodeCache.set(key, JSON.stringify(orders));
   }
 
-  return res.status(201).json({
+  return res.status(200).json({
     success: true,
     orders,
   });

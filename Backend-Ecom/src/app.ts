@@ -18,7 +18,7 @@ config({
   path: './.env',
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;   
 connectDB(process.env.MONOG_URI || "");
 
 // stripe -- payment
@@ -40,7 +40,7 @@ app.use('/api/v1/user', userRoute);
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/order', orderRoute);
 app.use('/api/v1/payment', paymentRoute);
-app.use('/api/v1/payment', dashboardRoute);
+app.use('/api/v1/dashboard', dashboardRoute);
 
 app.use('/uploads', express.static('uploads'));
 // middleware

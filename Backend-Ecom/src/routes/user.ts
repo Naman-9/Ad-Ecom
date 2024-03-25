@@ -9,9 +9,9 @@ const app = express.Router();
 app.post("/newuser", newUser);
 
 // route - /api/v1/user/all
-app.get("/all", adminOnly, getAllUsers);
+app.get("/all", getAllUsers);
 
 // route - /api/v1/user/dynamicId
-app.route("/:id").get(adminOnly, getUser).delete(adminOnly, deleteUser);
+app.route("/:id").get( getUser).delete( deleteUser);
 
 export default app;

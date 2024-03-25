@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { InvalidateCacheTypeProps, OrderItemType } from '../types/types.js';
 import { nodeCache } from '../app.js';
 import { Product } from '../models/Product.js';
@@ -13,7 +13,7 @@ export const connectDB = async (uri: string) => {
     .then((c) => console.log(`DB connected to ${c.connection.host}`));
 };
 
-export const inValidateCache = ({
+export const inValidateCache = ({   
   product,
   admin,
   order,
@@ -40,7 +40,7 @@ export const inValidateCache = ({
 
   if (order) {
     const orderKeys: string[] = ['all-orders', `my-orders-${userId}`, `order-${orderId}`];
-    const orders = await Order.find({}).select('_id');
+    const orders = Order.find({}).select('_id');
 
     nodeCache.del(orderKeys);
   }
@@ -126,3 +126,4 @@ export const getChartData = ({ length, docArr, today, property }: FuncProps) => 
 
   return data;
 };
+ 

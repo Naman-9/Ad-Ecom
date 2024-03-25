@@ -1,5 +1,5 @@
 import express from "express";
-import { applyDiscount, createPaymentIntent, newCoupon } from "../controllers/payment.js";
+import { allCoupons, applyDiscount, createPaymentIntent, deleteCoupon, newCoupon } from "../controllers/payment.js";
 
 const app = express.Router();
 

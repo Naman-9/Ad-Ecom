@@ -1,22 +1,26 @@
 import express from 'express';
 import { errorMiddleware } from './middlewares/error.js';
+import { connectDB } from './utils/features.js';
+import NodeCache from 'node-cache';
+import { config } from 'dotenv';
+import morgan from 'morgan';
+import Stripe from 'stripe';
+// routes
 import userRoute from './routes/user.js';
 import productRoute from './routes/product.js';
 import orderRoute from './routes/order.js';
 import paymentRoute from './routes/payment.js';
 import dashboardRoute from './routes/stats.js';
-import { connectDB } from './utils/features.js';
-import NodeCache from 'node-cache';
-import { config } from 'dotenv';
-import morgan from 'morgan';
 config({
     path: './.env',
 });
 const PORT = process.env.PORT || 4000;
-const app = express();
 connectDB(process.env.MONOG_URI || "");
+// stripe -- payment
+export const stripe = new Stripe(process.env.STRIPE_KEY || "");
 // cache data in RAM
 export const nodeCache = new NodeCache();
+const app = express();
 // middleware - to access data
 app.use(express.json());
 // registers requests
@@ -28,7 +32,7 @@ app.use('/api/v1/user', userRoute);
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/order', orderRoute);
 app.use('/api/v1/payment', paymentRoute);
-app.use('/api/v1/payment', dashboardRoute);
+app.use('/api/v1/dashboard', dashboardRoute);
 app.use('/uploads', express.static('uploads'));
 // middleware
 app.use(errorMiddleware);

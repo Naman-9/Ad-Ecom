@@ -56,8 +56,6 @@ export const updateProduct = TryCatch(async (req, res, next) => {
       console.log('Old photo Deleted');
     });
     product.photo = photo.path;
-
-    return next(new ErrorHandler('Please Add Photo.', 400));
   }
 
   if (name) {
@@ -84,6 +82,7 @@ export const updateProduct = TryCatch(async (req, res, next) => {
   return res.status(201).json({
     success: true,
     message: 'Product Updated Successfully.',
+    product
   });
 });
 
