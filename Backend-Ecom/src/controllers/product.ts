@@ -22,7 +22,7 @@ export const newProduct = TryCatch(
       return next(new ErrorHandler('Please Add Photo.', 400));
     }
 
-    await Product.create({
+    const product = await Product.create({
       name,
       price,
       stock,
@@ -30,11 +30,15 @@ export const newProduct = TryCatch(
       photo: photo?.path,
     });
 
-    await inValidateCache({product: true});
+    inValidateCache({
+        product: true,
+        admin: true
+      });
 
     return res.status(201).json({
       success: true,
       message: 'Product Created Successfully.',
+      product
     });
   },
 );
@@ -71,7 +75,11 @@ export const updateProduct = TryCatch(async (req, res, next) => {
 
   await product.save();
 
-  await inValidateCache({product: true});
+  inValidateCache({
+    product: true,
+    productId: String(product.id),
+    admin: true
+  });
 
   return res.status(201).json({
     success: true,
@@ -161,7 +169,11 @@ export const deleteProduct = TryCatch(async (req, res, next) => {
 
   await product.deleteOne();
 
-  await inValidateCache({product: true});
+    inValidateCache({
+        product: true,
+        productId: String(product.id),
+        admin: true
+      });
 
   return res.status(201).json({
     success: true,
