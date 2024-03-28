@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Loader from './components/Loader';
 import OrderDetails from './pages/OrderDetails';
+import {Toaster} from "react-hot-toast";
 
 const App = () => {
 
@@ -90,6 +91,8 @@ const App = () => {
           {/* ---------------Admin-------------------- */}
         </Routes>
       </Suspense>
+
+      <Toaster position='top-center'/>
     </Router>
   );
 };
