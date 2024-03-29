@@ -1,11 +1,11 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { FaGoogle } from 'react-icons/fa';
 import { auth } from '../firebase';
 import { useLoginMutation } from '../redux/api/userAPI';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { MessageResponse } from '../types/api-types';
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
   const [gender, setGender] = useState<string>('');
@@ -15,9 +15,9 @@ const Login = () => {
 
   const loginHandler = async () => {
     try {
-      const porvider = new GoogleAuthProvider();
+      const provider = new GoogleAuthProvider();
 
-      const { user } = await signInWithPopup(auth, porvider);
+      const { user } = await signInWithPopup(auth, provider);
 
       const res = await login({
         name: user.displayName!,
@@ -68,7 +68,7 @@ const Login = () => {
         <div>
           <p>Already Signed In Once?</p>
           <button onClick={loginHandler}>
-            <FaGoogle />
+            <FcGoogle />
             <span>Sign In With Google. </span>
           </button>
         </div>
