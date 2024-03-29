@@ -20,13 +20,13 @@ const Login = () => {
       const { user } = await signInWithPopup(auth, porvider);
 
       const res = await login({
-        name: '',
-        email: '',
-        photo: '',
-        gender: '',
-        role: '',
+        name: user.displayName!,
+        email: user.email!,
+        photo: user.photoURL!,
+        gender,
+        role: 'user',
         dob: date,
-        _id: '',
+        _id: user.uid,
       });
 
       // "res" will either have "data"(if success)

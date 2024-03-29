@@ -1,11 +1,21 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Loader from './components/Loader';
 import OrderDetails from './pages/OrderDetails';
-import {Toaster} from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
+import { userExist, userNotExist } from './redux/reducer/useReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from './redux/api/userAPI';
+import { UserReducerInitialState } from './types/reducer-types';
 
 const App = () => {
+  const disptach = useDispatch();
+  const { user, loading } = useSelector(
+    (state: { userReducer: UserReducerInitialState }) => state.userReducer,
+  );
 
   // Dynamic import - should know which one needs to be imported dynamically.
   // No need to load pages if we are not at it.
@@ -34,10 +44,26 @@ const App = () => {
   );
   // --------------Admin -----------------
 
-  return (
+  useEffect(() => {
+    // as auth change it triggers
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        console.log('---logged In');
+        const data = await getUser(user.uid);
+        disptach(userExist(data?.user));
+      } else {
+        console.log('---not logged in---');
+        disptach(userNotExist());
+      }
+    });
+  }, []);
+
+  return loading ? (
+    <Loader />
+  ) : (
     <Router>
       {/* Header   */} {/* available to all*/}
-      <Header />
+      <Header user={user} />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -48,9 +74,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
 
           {/* Logged in User Routes */}
-          <Route>
-
-          </Route>
+          <Route></Route>
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
@@ -91,8 +115,7 @@ const App = () => {
           {/* ---------------Admin-------------------- */}
         </Routes>
       </Suspense>
-
-      <Toaster position='top-center'/>
+      <Toaster position="top-center" />
     </Router>
   );
 };

@@ -5,6 +5,7 @@ import NodeCache from 'node-cache';
 import { config } from 'dotenv';
 import morgan from 'morgan';
 import Stripe from 'stripe';
+import cors from 'cors'; 
 
 // routes
 import userRoute from './routes/user.js';
@@ -12,7 +13,6 @@ import productRoute from './routes/product.js';
 import orderRoute from './routes/order.js';
 import paymentRoute from './routes/payment.js';
 import dashboardRoute from './routes/stats.js';
-
 
 config({
   path: './.env',
@@ -30,8 +30,9 @@ export const nodeCache = new NodeCache();
 const app = express();
 // middleware - to access data
 app.use(express.json());
-// registers requests
+// registers requests  
 app.use(morgan("dev"));
+app.use(cors());
 // when using form (not multiple)
 // app.use(express.urlencoded);
 

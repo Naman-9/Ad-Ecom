@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { FaSearch, FaShoppingBag, FaSignInAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { User } from '../types/types';
 
 // const user = { };
-const user = { _id: '3', role: 'admin' };
 
-const Header = () => {
+interface PropsTypes {
+  user: User | null;
+}
+
+const Header = ({user}: PropsTypes) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
