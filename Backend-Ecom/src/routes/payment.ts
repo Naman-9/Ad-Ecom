@@ -10,7 +10,7 @@ app.post("/create", createPaymentIntent);
 app.get("/discount", applyDiscount);
 
 // route - /api/v1/payment/coupoun/new
-app.post("/coupon/new", newCoupon);
+app.post("/coupon/new", newCoupon);      
 
 //  route - /api/v1/payment/coupon/all
 app.get("/coupon/all", allCoupons);

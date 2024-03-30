@@ -289,6 +289,7 @@ $color3: rgb(0, 104, 136);
 .skeleton-loader {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .skeleton-shape {
@@ -297,7 +298,7 @@ $color3: rgb(0, 104, 136);
   background-color: #ddd;
   margin-bottom: 10px;
   border-radius: 4px;
-  animation: skeleon-loading 1.5s infinite;
+  animation: skeleton-loading 1.5s infinite;
 }
 
 @keyframes loading-animation {
@@ -311,7 +312,7 @@ $color3: rgb(0, 104, 136);
   }
 }
 
-@keyframes skeleon-loading {
+@keyframes skeleton-loading {
   0% {
     opacity: 0.6;
   }

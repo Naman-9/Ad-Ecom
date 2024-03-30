@@ -12,8 +12,10 @@ import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
 import ProtectedRoute from './components/ProtectedRoute';
 
+
 const App = () => {
-  const disptach = useDispatch();
+  
+  const dispatch = useDispatch();
   const { user, loading } = useSelector(
     (state: { userReducer: UserReducerInitialState }) => state.userReducer,
   );
@@ -51,10 +53,10 @@ const App = () => {
       if (user) {
         console.log('---logged In');
         const data = await getUser(user.uid);
-        disptach(userExist(data?.user));
+        dispatch(userExist(data?.user));
       } else {
         console.log('---not logged in---');
-        disptach(userNotExist());
+        dispatch(userNotExist());
       }
     });
   }, []);
