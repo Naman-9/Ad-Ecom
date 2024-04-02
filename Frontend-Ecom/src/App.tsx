@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
 import ProtectedRoute from './components/ProtectedRoute';
+import NotFound from './pages/NotFound';
 
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
   const Cart = lazy(() => import('./pages/Cart'));
   const Shipping = lazy(() => import('./pages/Shipping'));
   const Orders = lazy(() => import('./pages/Orders'));
+  const NotFound = lazy(() => import('./pages/NotFound'));
 
   // --------------Admin -----------------
   const Dashboard = lazy(() => import('./pages/admin/dashboard'));
@@ -128,6 +130,8 @@ const App = () => {
           {/* ---------------Admin-------------------- */}
           {/* ---------------Admin-------------------- */}
           {/* ---------------Admin-------------------- */}
+
+          <Route path='*' element = {<NotFound />} />
         </Routes>
       </Suspense>
       <Toaster position="top-center" />

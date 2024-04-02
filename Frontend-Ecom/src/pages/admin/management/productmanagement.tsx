@@ -4,7 +4,7 @@ import AdminSidebar from '../../../components/admin/AdminSidebar';
 import { useSelector } from 'react-redux';
 import { UserReducerInitialState } from '../../../types/reducer-types';
 import { useDeleteProductMutation, useProductDetailsQuery, useUpdateProductMutation } from '../../../redux/api/productApi';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { SkeletonLoader } from '../../../components/Loader';
 import { responseToast } from '../../../utils/features';
 import { server } from '../../../redux/store';
@@ -21,7 +21,7 @@ const Productmanagement = () => {
     (state: { useReducer: UserReducerInitialState }) => state.userReducer,
   );
 
-  const { data, isLoading, isError, error } = useProductDetailsQuery(params.id!);
+  const { data, isLoading, isError } = useProductDetailsQuery(params.id!);
 
   const { _id, price, stock, name, photo, category } = data?.product || {
     _id: '',
@@ -99,6 +99,10 @@ const Productmanagement = () => {
 
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
+
+  if (isError) {
+    return <Navigate to={"/404"} />
+  }
 
   return (
     <div className="admin-container">
