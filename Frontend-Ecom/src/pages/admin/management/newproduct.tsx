@@ -15,8 +15,8 @@ const NewProduct = () => {
 
   const [name, setName] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  const [price, setPrice] = useState<number>(1000);
-  const [stock, setStock] = useState<number>(1);
+  const [price, setPrice] = useState<number>(0);
+  const [stock, setStock] = useState<number>(0);
   const [photoPrev, setPhotoPrev] = useState<string>('');
   const [photo, setPhoto] = useState<File>();
 

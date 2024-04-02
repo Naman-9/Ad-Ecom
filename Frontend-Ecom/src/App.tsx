@@ -6,7 +6,7 @@ import OrderDetails from './pages/OrderDetails';
 import { Toaster } from 'react-hot-toast';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
-import { userExist, userNotExist } from './redux/reducer/useReducer';
+import { userExist, userNotExist } from './redux/reducer/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';

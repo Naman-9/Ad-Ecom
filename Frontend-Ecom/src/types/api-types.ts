@@ -40,8 +40,25 @@ export interface SearchQueryRequest {
     page?: number;
   }
 
+export type ProductResponse = {
+    id: string;
+    product: Product;
+    
+}
+
 export type NewProductResponse = {
     id: string;
     formData: FormData;
     
+}
+
+export type UpdateProductResponse = {
+    userId: string;
+    productId: string;
+    formData: FormData;
+}
+
+export type DeleteProductResponse = {
+    userId: string;
+    productId: string;
 }

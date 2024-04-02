@@ -1,6 +1,12 @@
 dialog (open), code         --- Html
 lazy, suspense(fallback)    -- react 
+axios.CancelToken.source(); -- axios (abort Controller)
+reducer                      -- redux
+toolkitQuery(isLoading, isError, data, Error) -- redux
+tagTypes:["product"],        -- redux (Caching)
+providesTags: ["product"],   
 TableHOC
+
 
 -----------------------------------
 Backend
