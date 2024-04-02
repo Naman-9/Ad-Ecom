@@ -4,7 +4,7 @@ axios.CancelToken.source(); -- axios (abort Controller)
 reducer                      -- redux
 toolkitQuery(isLoading, isError, data, Error) -- redux
 tagTypes:["product"],        -- redux (Caching)
-providesTags: ["product"],   
+providesTags: ["product"],   (provide tag for caching when need to revalidate it pass invalidateTag)
 TableHOC
 
 
