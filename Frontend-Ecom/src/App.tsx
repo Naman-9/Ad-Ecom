@@ -30,7 +30,7 @@ const App = () => {
   const Shipping = lazy(() => import('./pages/Shipping'));
   const Orders = lazy(() => import('./pages/Orders'));
   const NotFound = lazy(() => import('./pages/NotFound'));
-
+  
   // --------------Admin -----------------
   const Dashboard = lazy(() => import('./pages/admin/dashboard'));
   const Products = lazy(() => import('./pages/admin/products'));
@@ -44,6 +44,7 @@ const App = () => {
   const Toss = lazy(() => import('./pages/admin/apps/toss'));
   const NewProduct = lazy(() => import('./pages/admin/management/newproduct'));
   const ProductManagement = lazy(() => import('./pages/admin/management/productmanagement'));
+  const Checkout = lazy(() => import('./pages/Checkout'));
   const TransactionManagement = lazy(
     () => import('./pages/admin/management/transactionmanagement'),
   );
@@ -90,6 +91,8 @@ const App = () => {
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/:id" element={<OrderDetails />} />
+            <Route path="/pay" element={<Checkout />} />
+
           </Route>
 
           {/* ---------------Admin-------------------- */}
@@ -125,6 +128,7 @@ const App = () => {
             <Route path="/admin/product/:id" element={<ProductManagement />} />
 
             <Route path="/admin/transaction/:id" element={<TransactionManagement />} />
+            <Route path="/pay" element={<Checkout />} />
           </Route>
           {/* ---------------Admin-------------------- */}
           {/* ---------------Admin-------------------- */}

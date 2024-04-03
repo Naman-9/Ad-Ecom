@@ -19,3 +19,6 @@ export const store = configureStore({
     middleware: (defaultMid) => [...defaultMid(), userAPI.middleware, productAPI.middleware, orderApi.middleware],
 });
  
+
+// to get all state 
+export type RootState = ReturnType<typeof store.getState>;

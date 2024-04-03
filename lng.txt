@@ -39,3 +39,69 @@ tsconfig.json
 orderdetail
 newcoupoun
 deletecoupoun
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------
+---------------------------------------------------------------------
+
+1. Quick Tip: (💡React Router Dom Tip ) 
+2. Error while Deleting A Product - 2:58:55 
+3. Stripe Card Payment Error - 5:08:54
+4. Product Stock not updating after Order placed - 5:19:48
+
+👉1. React Router Dom Tip : 
+If you currently this path `/admin/product/new` for creat a new product and then after  product  successfully created, you wanted to navigate the user to previous path `/admin/product` - 2:38:38 don't write it down this way
+`navigate("/admin/product")` - 2:38:38
+just use two dots. for go back to previous path
+`navigate("..")`  or `navigate(-1)` - 2:37:05
+you can also add an option, how you want to go back "path" or "route"
+`navigate("..", { relative : "path" })` - 2:37:05
+ℹPlease Read react router dom docs for more info
+
+👉2. Error while Deleting A Product : - 2:58:55
+While deleting a product if you get an error on browser console or in terminal (400 status ) then it happen only because invalidate tag in delete product.
+After deleting the product it’s still refetching the product that’s why 400 bad request come in console.
+To prevent this just add another tag in your tagType (e.g. “allProduct”)
+Add this tag in all providers tag except product detail (Don’t need while deleting product )
+And make sure to remove ‘product’ invalidate tag from delete product
+
+ 👉3. Stripe Card Payment Error - 5:08:54
+while payment process you might see an error if you're using latest version of stripe 
+
+⛔ERROR⛔
+As per Indian regulations, only registered Indian businesses (i.e. sole proprietorships, limited liability partnerships and companies, but not individuals) can accept international payments. More info here: https://stripe.com/docs/india-exports
+
+To Resolve this problem (for testing as per stripe docs) just use this card number 4000003560000123, 4000003560000297
+
+👉4. Product Stock not updating after Order placed - 5:19:48
+After Order Placed and navigate to orders then go to all products in /admin/product and you can see product stock not 
+change.
+That because after order placed update product cache not Invalidate that's why in all product new data not fetching
+If you refresh you can see the updated stock in your products
+
+To Resolve this Problem, in product page from `useAllProductsQuery` hooks call refetch function and use it in useEffects for force to refetch data.
+But this way everytime when you open the product page data refetch. So we don't wanted that. To Fix this
+    ▫Create a boolean state in your cartReducer initialState named e.g. `isRefetch` and default value `false`.
+    ▫Create a action called `refetchProduct`  code 👇👇
+                      ``` 
+                          refetchProduct: (state, action: PayloadAction<boolean>) => {
+                               state.isRefetch = action.payload;
+                          }
+                     ```
+    ▫In checkout page after `dispatch(resetCart())` add this call this action => `dispatch(refetchProduct(true))`
+    ▫Back in product page called `isRefetch` from   cartReducer and add dependency in useEffect and before mount the Data
+           add this line 
+                  ``` 
+                       if (isRefetch) refetch();
+                       dispatch(refetchProduct(false));
+                  ```
