@@ -1,11 +1,14 @@
 import React from 'react';
 
 const Loader = () => {
-  return <div>Loading...</div>;
+  return (
+    <section className="loader">
+      <div></div>
+    </section>
+  );
 };
 
 export default Loader;
-
 
 export const SkeletonLoader = ({
   width = 'unset',
@@ -17,9 +20,5 @@ export const SkeletonLoader = ({
   const skeletons = Array.from({ length }, (_, idx) => (
     <div className="skeleton-shape" style={{ width }} key={idx}></div>
   ));
-  return (
-    <div className="skeleton-loader">
-      {skeletons}
-    </div>
-  );
+  return <div className="skeleton-loader">{skeletons}</div>;
 };

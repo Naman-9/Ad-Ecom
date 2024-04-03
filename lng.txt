@@ -35,7 +35,14 @@ tsconfig.json
   node-cache
 
 
-
+-------------
+-------------
+-------------
+server
+npm install && mkdir -p uploads && npm run build
+-------------
+-------------
+-------------
 
 ------------------------------
 orderdetail
