@@ -252,7 +252,7 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
     const orderFullfillement = {
       processing: processingOrder,
       shipped: shippedOrder,
-      delevered: deliveredOrder,
+      delivered: deliveredOrder,
     };
 
     const productCategories: Record<string, number>[] = await getInventory({
@@ -373,7 +373,7 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
 
     charts = {
       users: userCounts,
-      product: productCounts,
+      products: productCounts,
       order: orderCounts,
     };
 
@@ -444,7 +444,7 @@ export const getLineCharts = TryCatch(async (req, res, next) => {
 
     charts = {
       users: userCounts,
-      product: productCounts,
+      products: productCounts,
       discount,
       revenue,
     };

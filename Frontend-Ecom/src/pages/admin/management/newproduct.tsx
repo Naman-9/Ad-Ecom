@@ -41,7 +41,7 @@ const NewProduct = () => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!name || !price || !stock || !category || !photo) {
+    if (!name || !price || !category || !photo || stock<0) {
       toast.error('Please fill all fields.');
       return;
     }

@@ -6,6 +6,8 @@ reducer                      -- redux
 toolkitQuery(isLoading, isError, data, Error) -- redux
 tagTypes:["product"],        -- redux (Caching)
 providesTags: ["product"],   (provide tag for caching when need to revalidate it pass invalidateTag)
+// keep cache data for 0 sec
+      keepUnusedDataFor: 0,  -- redux
 TableHOC
 
 
